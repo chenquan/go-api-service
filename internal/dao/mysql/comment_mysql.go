@@ -13,7 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
+/*
+ * @Package do
+ * @Author Quan Chen
+ * @Date 2020/3/19
+ * @Description 评论Dao层接口mysql数据库实现
+ *
+ */
 package mysql
 
 import (
@@ -22,6 +28,7 @@ import (
 	"github.com/opensourceai/go-api-service/internal/models"
 )
 
+// 依赖注入
 func NewCommentDao(db *gorm.DB) (dao.CommentDao, error) {
 	return &commentDao{db}, nil
 }

@@ -1,3 +1,19 @@
+/*
+ *    Copyright 2020 opensourceai
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package api
 
 import (
@@ -14,8 +30,10 @@ import (
 	"net/http"
 )
 
+// 随机状态码
 var oauthStateString = com.ToStr(com.RandomCreateBytes(12))
 
+// OAuth认证路由
 func OauthApi(router *gin.Engine) {
 	githubR := router.Group("/oauth/github")
 	{
@@ -30,6 +48,7 @@ func OauthApi(router *gin.Engine) {
 
 }
 
+// github oauth配置信息
 var githubOauthConfig = &oauth2.Config{
 	ClientID:     "41af06dd237b762a91cc",
 	ClientSecret: "06044e6f11daef1f9e39e88d450cf2c32a4197d3",
@@ -38,11 +57,14 @@ var githubOauthConfig = &oauth2.Config{
 	Endpoint:     github.Endpoint,
 }
 
+// github 登录跳转
 func githubLogin(c *gin.Context) {
 	url := githubOauthConfig.AuthCodeURL(oauthStateString)
 	fmt.Println(url)
 	c.Redirect(http.StatusTemporaryRedirect, url)
 }
+
+// github 登录回调
 func githubCallback(c *gin.Context) {
 	appG := app.Gin{C: c}
 	if state, b := c.GetQuery("state"); b {
@@ -74,6 +96,7 @@ func githubCallback(c *gin.Context) {
 
 }
 
+// google oauth配置信息
 var googleOauthConfig = &oauth2.Config{
 	ClientID:     "882682681914-ub6u8vac6o6fdr798l0skhau3tfj9hrf.apps.googleusercontent.com",
 	ClientSecret: "PqGHL_LfX-lnIm7gSfNL77we",
@@ -83,11 +106,14 @@ var googleOauthConfig = &oauth2.Config{
 	Endpoint: google.Endpoint,
 }
 
+// google 登录跳转
 func googleLogin(c *gin.Context) {
 	url := googleOauthConfig.AuthCodeURL(oauthStateString)
 	fmt.Println(url)
 	c.Redirect(http.StatusTemporaryRedirect, url)
 }
+
+// google 登录回调
 func googleCallback(c *gin.Context) {
 	appG := app.Gin{C: c}
 	if state, b := c.GetQuery("state"); b {

@@ -22,3 +22,16 @@
  *
  */
 package do
+
+import "github.com/opensourceai/go-api-service/internal/models"
+
+/*评论*/
+type CommentDO struct {
+	models.Comment
+	FromUser UserDo `json:"from_user" gorm:"foreignkey:FromUserId"`
+	ToUser   UserDo `json:"to_user" gorm:"foreignkey:ToUserId"`
+}
+
+func (CommentDO) TableName() string {
+	return "comment"
+}
