@@ -20,6 +20,7 @@ runtime/*
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-# 获取命令生成的文件
-docs
+
+# 忽略命令生成的文件
+docs/*
 api/wire_gen.go
